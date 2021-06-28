@@ -4,6 +4,8 @@
 
 A [Google.Fonts.Material-Icons](https://fonts.google.com/icons) upm package for the [Unity](https://unity.com/) Game Engine.
 
+***All copyrights, trademarks, logos, and assets are the property of their respective owners.***
+
 ## Installing
 
 ### Via Unity Package Manager and OpenUPM
