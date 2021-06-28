@@ -1,0 +1,17 @@
+{
+  "name": "com.google.fonts.material-icons",
+  "displayName": "Google.Fonts.Material-Icons",
+  "description": "Material design icons is the official icon set from Google. They can be browsed at https://fonts.google.com/icons.",
+  "keywords": [],
+  "version": "1.0.0-preview.1",
+  "unity": "2019.4",
+  "license": "MIT",
+  "repository": {
+    "type": "git"
+  },
+  "author": "Google",
+  "dependencies": {
+    "com.google.fonts.roboto": "1.0.1"
+  },
+  "type": "assets"
+}

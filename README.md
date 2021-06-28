@@ -1,11 +1,26 @@
-# upm-template
+# com.google.fonts.material-icons
 
-A Unity package manager repository template for quickly creating and setting up new UPM package projects in Unity.
+[![openupm](https://img.shields.io/npm/v/com.google.fonts.material-icons?label=openupm&registry_uri=https://package.openupm.com)](https://openupm.com/packages/com.google.fonts.material-icons/)
 
-## Getting Started
+A [Google.Fonts.Material-Icons](https://fonts.google.com/icons) upm package for the [Unity](https://unity.com/) Game Engine.
 
-1. Create a new repository in GitHub using this template
-2. Clone to your local machine
-3. Run the `InitializeTemplate.ps1` script from powershell, a command line, or terminal
-4. ???
-5. Profit
+## Installing
+
+### Via Unity Package Manager and OpenUPM
+
+- Open your Unity project settings
+- Select the `Package Manager`
+![scoped-registries](Google.Fonts.Material-Icons/Packages/com.google.fonts.material-icons/Documentation~/images/package-manager-scopes.png)
+- Add the OpenUPM package registry:
+  - `Name: OpenUPM`
+  - `URL: https://package.openupm.com`
+  - `Scope(s):`
+    - `com.google.fonts`
+- Open the Unity Package Manager window
+- Change the Registry from Unity to `My Registries`
+- Add the `Google.Fonts.Material-Icons` package
+
+### Via Unity Package Manager and Git url
+
+- Open your Unity Package Manager
+- Add package from git url: `https://github.com/RageAgainstThePixel/com.google.fonts.material-icons.git#upm`
