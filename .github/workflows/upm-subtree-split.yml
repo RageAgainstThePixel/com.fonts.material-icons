@@ -13,5 +13,5 @@ jobs:
         fetch-depth: 0
     - name: upm subtree split
       run: |
-        git subtree split --prefix="Google.Fonts.Material-Icons/Packages/com.google.fonts.material-icons" -b upm
+        git subtree split --prefix="Fonts.Material-Icons/Packages/com.fonts.material-icons" -b upm
         git push -u origin upm --force

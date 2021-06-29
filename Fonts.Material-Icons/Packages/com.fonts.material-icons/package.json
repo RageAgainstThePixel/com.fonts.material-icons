@@ -1,6 +1,6 @@
 {
-  "name": "com.google.fonts.material-icons",
-  "displayName": "Google.Fonts.Material-Icons",
+  "name": "com.fonts.material-icons",
+  "displayName": "Material-Icons Font",
   "description": "Material design icons is the official icon set from Google. They can be browsed at https://fonts.google.com/icons.",
   "keywords": [],
   "version": "1.0.0",
@@ -8,11 +8,11 @@
   "license": "Apache 2.0",
   "repository": {
     "type": "git",
-    "repository": "https://github.com/RageAgainstThePixel/com.google.fonts.material-icons.git"
+    "repository": "https://github.com/RageAgainstThePixel/com.fonts.material-icons.git"
   },
-  "author": "Google",
+  "author": "Stephen Hodgson",
   "dependencies": {
-    "com.google.fonts.roboto": "1.0.2"
+    "com.fonts.roboto": "2.0.0"
   },
   "type": "assets",
   "publishConfig": {

@@ -7,12 +7,12 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
-namespace Google.Fonts
+namespace Fonts
 {
     internal static class CheckDependencies
     {
         private static readonly string FontPath = "submodules\\material-design-icons\\font";
-        private static readonly string PackagePath = "Packages\\com.google.fonts.material-icons";
+        private static readonly string PackagePath = "Packages\\com.fonts.material-icons";
         private static readonly char[] NewLines = { '\n' };
         private static readonly char[] EmptyLines = { ' ' };
 
