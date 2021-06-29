@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using TMPro;
 using UnityEditor;
 using UnityEngine;
 
@@ -52,25 +53,24 @@ namespace Fonts
                 AssetDatabase.Refresh(ImportAssetOptions.Default);
 
                 ParseCodePoints();
-
-                AssetDatabase.Refresh(ImportAssetOptions.Default);
             }
         }
 
+        [MenuItem("Google/Parse Codepoints")]
         private static void ParseCodePoints()
         {
-            var guids = AssetDatabase.FindAssets("MaterialIcons");
+            var guids = AssetDatabase.FindAssets("MaterialIcons*");
             var assets = new Dictionary<string, Tuple<string, string, string>>(guids.Length);
 
             foreach (var guid in guids)
             {
                 var assetPath = AssetDatabase.GUIDToAssetPath(guid);
-                var fontName = Path.GetFileNameWithoutExtension(assetPath);
 
-                if (!assets.TryGetValue(fontName, out var fontAssets))
+                if (assetPath.Contains(".txt"))
                 {
-                    fontAssets = new Tuple<string, string, string>(null, null, null);
-                    assets.Add(fontName, fontAssets);
+                    File.Delete(assetPath);
+                    File.Delete($"{assetPath}.meta");
+                    continue;
                 }
 
                 if (assetPath.Contains(".asmdef"))
@@ -78,11 +78,19 @@ namespace Fonts
                     continue;
                 }
 
-                if (assetPath.Contains(".txt"))
+                var fontName = Path.GetFileNameWithoutExtension(assetPath)
+                    .Replace(" SDF", string.Empty);
+
+                if (string.IsNullOrWhiteSpace(fontName))
                 {
-                    File.Delete(assetPath);
-                    File.Delete($"{assetPath}.meta");
+                    Debug.LogWarning($"Skipping {assetPath}");
                     continue;
+                }
+
+                if (!assets.TryGetValue(fontName, out var fontAssets))
+                {
+                    fontAssets = new Tuple<string, string, string>(null, null, null);
+                    assets.Add(fontName, fontAssets);
                 }
 
                 var (fontPath, tmpFontPath, codePointsPath) = fontAssets;
@@ -92,7 +100,8 @@ namespace Fonts
                     codePointsPath = assetPath;
                 }
 
-                if (assetPath.Contains(".tff"))
+                if (assetPath.Contains(".ttf") ||
+                    assetPath.Contains(".otf"))
                 {
                     fontPath = assetPath;
                 }
@@ -113,19 +122,45 @@ namespace Fonts
             foreach (var asset in assets)
             {
                 var (fontPath, tmpFontPath, codePointsPath) = asset.Value;
+
                 var text = File.ReadAllText(Path.GetFullPath(codePointsPath));
                 var entries = text.Replace("\r", string.Empty)
                                   .Split(NewLines, StringSplitOptions.RemoveEmptyEntries);
                 var glyphs = entries.Select(entry => entry.Split(EmptyLines, StringSplitOptions.RemoveEmptyEntries))
                                     .Select(codePoint => codePoint[1]).ToList();
-                var unicodeRange = string.Join(",", glyphs);
-                File.WriteAllText($"{codePointsPath}.txt", unicodeRange);
+                //var unicodeRange = string.Join(",", glyphs);
+                uint[] unicode = new uint[glyphs.Count * 4];
 
-                // TODO Try to regenerate font based on unicode range?
+                for (int i = 0; i < glyphs.Count; i++)
+                {
+                    unicode[i] = Convert.ToUInt32(glyphs[i], 16);
+                }
 
-                AssetDatabase.SaveAssets();
-                AssetDatabase.Refresh(ImportAssetOptions.Default);
+                //File.WriteAllText($"{codePointsPath}.txt", unicodeRange);
+                var font = AssetDatabase.LoadAssetAtPath<Font>(fontPath);
+
+                if (string.IsNullOrWhiteSpace(tmpFontPath))
+                {
+                    Selection.activeObject = font;
+                    TMP_FontAsset_CreationMenu.CreateFontAsset();
+                    AssetDatabase.Refresh(ImportAssetOptions.Default);
+                    var folderPath = Path.GetDirectoryName(fontPath);
+                    var assetName = Path.GetFileNameWithoutExtension(fontPath);
+
+                    var fontAsset = AssetDatabase.LoadAssetAtPath<TMP_FontAsset>($"{folderPath}/{assetName} SDF.asset");
+
+                    if (fontAsset.TryAddCharacters(unicode, out var missingUnicodes))
+                    {
+                        AssetDatabase.SaveAssets();
+                    }
+                    else
+                    {
+                        Debug.LogWarning($"Failed to parse unicode range for {assetName}!\n{string.Join(",", missingUnicodes)}");
+                    }
+                }
             }
+
+            AssetDatabase.Refresh(ImportAssetOptions.Default);
         }
     }
 }
