@@ -2,7 +2,7 @@
 
 [![openupm](https://img.shields.io/npm/v/com.fonts.material-icons?label=openupm&registry_uri=https://package.openupm.com)](https://openupm.com/packages/com.fonts.material-icons/)
 
-A [Google.Fonts.Material-Icons](https://fonts.google.com/icons) upm package for the [Unity](https://unity.com/) Game Engine.
+A [Material-Icons font](https://fonts.google.com/icons) upm package for the [Unity](https://unity.com/) Game Engine.
 
 ***All copyrights, trademarks, logos, and assets are the property of their respective owners.***
 
