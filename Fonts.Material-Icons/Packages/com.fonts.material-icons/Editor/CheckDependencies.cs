@@ -142,7 +142,11 @@ namespace Fonts
                 if (string.IsNullOrWhiteSpace(tmpFontPath))
                 {
                     Selection.activeObject = font;
+                    #if UNITY_2023_1_OR_NEWER
+                    TMP_FontAsset.CreateFontAsset(font);
+                    #else
                     TMP_FontAsset_CreationMenu.CreateFontAsset();
+                    #endif
                     AssetDatabase.Refresh(ImportAssetOptions.Default);
                     var folderPath = Path.GetDirectoryName(fontPath);
                     var assetName = Path.GetFileNameWithoutExtension(fontPath);
